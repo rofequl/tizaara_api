@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="444b93cc-07fd-4d5f-a086-320adf7447f4" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings" doNotAsk="true">
+    <execution />
+  </component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/package.json" />
+  </component>
+  <component name="ProjectId" id="1gJ7Ig9qxHDeswpcMYUBSlIG6NH" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RunManager">
+    <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <TestRunner scope="XML" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="444b93cc-07fd-4d5f-a086-320adf7447f4" name="Default Changelist" comment="" />
+      <created>1597820763266</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1597820763266</updated>
+      <workItem from="1597820764508" duration="38810000" />
+      <workItem from="1598280437435" duration="4381000" />
+      <workItem from="1598426316082" duration="12864000" />
+      <workItem from="1598622722056" duration="15986000" />
+      <workItem from="1598733139726" duration="618000" />
+      <workItem from="1598775653226" duration="5319000" />
+      <workItem from="1598816746455" duration="70000" />
+      <workItem from="1598933592582" duration="5998000" />
+      <workItem from="1599082381738" duration="31816000" />
+      <workItem from="1599287583813" duration="1645000" />
+      <workItem from="1599296693000" duration="345000" />
+      <workItem from="1599327733701" duration="1286000" />
+      <workItem from="1599387546795" duration="4183000" />
+      <workItem from="1599574334233" duration="18618000" />
+      <workItem from="1599846190140" duration="9070000" />
+      <workItem from="1600164482616" duration="660000" />
+      <workItem from="1600207502100" duration="14752000" />
+      <workItem from="1600517428079" duration="1000" />
+      <workItem from="1600517436093" duration="1000" />
+      <workItem from="1600948734701" duration="33774000" />
+      <workItem from="1601203951714" duration="8974000" />
+      <workItem from="1601251939167" duration="516000" />
+      <workItem from="1601314708148" duration="18156000" />
+      <workItem from="1601501278842" duration="7616000" />
+      <workItem from="1601537622175" duration="96000" />
+      <workItem from="1601541047661" duration="113000" />
+      <workItem from="1601586911984" duration="2095000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="438" y="208" key="#Notifications" timestamp="1601537660814">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="438" y="208" key="#Notifications/0.0.1366.768/-248.-1080.1280.720@0.0.1366.768" timestamp="1601537660814" />
+    <state x="413" y="139" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1601506229246">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="413" y="139" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.768/-248.-1080.1280.720@0.0.1366.768" timestamp="1601506229246" />
+    <state x="450" y="107" key="NewPhpClassDialog" timestamp="1599591003556">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="450" y="107" key="NewPhpClassDialog/0.0.1366.768/-248.-1080.1280.720@0.0.1366.768" timestamp="1599591003556" />
+    <state x="517" y="307" key="NewPhpFileDialog" timestamp="1601072264494">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="517" y="307" key="NewPhpFileDialog/0.0.1366.768/-248.-1080.1280.720@0.0.1366.768" timestamp="1601072264494" />
+  </component>
+</project>

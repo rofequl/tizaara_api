@@ -1,0 +1,21 @@
+registration_type:
+	0. Email registration
+	1. Phone registration
+	2. Google registration
+	3. Facebook registration
+
+photo_type:
+	0. Website
+	1. Google
+	3. Facebook
+
+account_type: 
+	0. Both
+	1. Seller
+	2. Buyers
+
+Status:
+	0. Unverify
+	1. Verify request 
+	2. Verify User
+	3. Block
