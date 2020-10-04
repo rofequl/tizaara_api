@@ -37,6 +37,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'user', 'namespace' => 'User'],
     Route::post('verify-send', 'AuthController@verifyTokenSend');
     Route::post('verify-request/{data}', 'AuthController@verifyRequest');
     Route::get('user-search', 'AuthController@search');
+    Route::resource('product', 'ProductController');
 });
 
 Route::group(['middleware' => 'api'], function ($router) {

@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
-use App\Category;
 use App\discount_variation;
+use App\Http\Controllers\Controller;
 use App\price_variation;
 use App\Product;
 use App\Product_stock;
-use App\SubCategory;
-use App\SubSubCategory;
 use App\Traits\FileUpload;
 use App\Traits\Slug;
 use Illuminate\Http\Request;
@@ -18,65 +16,24 @@ class ProductController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:admins', ['except' => ['productCategory','search']]);
+        $this->middleware('auth:users');
     }
 
     use FileUpload;
     use Slug;
 
-    public function index(Request $request)
+    public function index()
     {
-        $columns = ['id', 'name'];
-        $length = $request->input('length');
-        $column = $request->input('column'); //Index
-        $dir = $request->input('dir');
-        $searchValue = $request->input('search');
-        if ($length == null && $column == null && $dir == null && $searchValue == null) {
-            return Product::select('id', 'name', 'subcategory_id')->orderBy('id', 'DESc')->get();
-        }
-        $query = Product::with('product_stock')
-            ->select('id', 'name', 'num_of_sale', 'thumbnail_img', 'stockManagement', 'quantity', 'priceType', 'unit_price')
-            ->orderBy($columns[$column], $dir);
-
-        if ($searchValue) {
-            $query->where(function ($query) use ($searchValue) {
-                $query->where('name', 'like', '%' . $searchValue . '%')
-                    ->orWhere('sku', 'like', '%' . $searchValue . '%');
-            });
-        }
-
-        $projects = $query->latest()->paginate($length);
-        return ['data' => $projects, 'draw' => $request->input('draw')];
+        return Product::where('user_id', Auth::user()->id)->orderBy('id', 'DESc')->get();
     }
 
-    public function search(Request $request)
+    public function create()
     {
-        $search = $request->input('searchProduct');
-        if ($search != null) {
-            return Product::select('id', 'name', 'thumbnail_img', 'sku')
-                ->where('name', 'like', '%' . $search . '%')
-                ->orWhere('sku', 'like', '%' . $search . '%')->get();
-        } else {
-            return [];
-        }
-    }
-
-    public function getProductGroup(Request $request)
-    {
-        $search = $request->input('searchProduct');
-        if ($search != null) {
-            $search = json_decode($search);
-            return Product::select('id', 'name', 'thumbnail_img', 'sku')
-                ->whereIn('id', $search)->get();
-        } else {
-            return [];
-        }
+        //
     }
 
     public function store(Request $request)
     {
-
-
         $this->validate($request, [
             'name' => 'required|max:200',
             'added_by' => 'required|max:10',
@@ -220,37 +177,6 @@ class ProductController extends Controller
     public function show($id)
     {
         //
-    }
-
-    public function productCategory(Request $request)
-    {
-        $category = $request->input('category');
-        $subcategory = $request->input('subcategory');
-        $subsubcategory = $request->input('subsubcategory');
-        if ($subsubcategory != null) {
-            $category = Category::where('slug', $category)->select('id')->first()->id;
-            $subcategory = SubCategory::where('slug', $subcategory)->select('id')->first()->id;
-            $subsubcategory = SubSubCategory::where('slug', $subsubcategory)->select('id')->first()->id;
-            return Product::with('product_stock')
-                ->where('category_id', $category)->where('subcategory_id', $subcategory)
-                ->where('subsubcategory_id', $subsubcategory)
-                ->select('id', 'name', 'thumbnail_img', 'priceType', 'unit_price','slug')->get();
-        }
-
-        if ($subcategory != null) {
-            $category = Category::where('slug', $category)->select('id')->first()->id;
-            $subcategory = SubCategory::where('slug', $subcategory)->select('id')->first()->id;
-            return Product::with('product_stock')
-                ->where('category_id', $category)->where('subcategory_id', $subcategory)
-                ->select('id', 'name', 'thumbnail_img', 'priceType', 'unit_price','slug')->get();
-        }
-
-        if ($category != null) {
-            $category = Category::where('slug', $category)->select('id')->first()->id;
-            return Product::with('product_stock')
-                ->where('category_id', $category)
-                ->select('id', 'name', 'thumbnail_img', 'priceType', 'unit_price','slug')->get();
-        }
     }
 
     public function edit($id)

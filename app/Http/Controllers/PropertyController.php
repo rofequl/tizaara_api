@@ -12,7 +12,7 @@ class PropertyController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:admins');
+        $this->middleware('auth:admins', ['except' => ['show']]);
     }
 
     public function index(Request $request)
