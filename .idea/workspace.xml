@@ -6,17 +6,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="444b93cc-07fd-4d5f-a086-320adf7447f4" name="Default Changelist" comment="User Product Upload">
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/User/UserController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/upload/category/icon/ODE1MjE2MDE3NDI0NDM=.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AttributeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AttributeController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BrandController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BrandController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ColourController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ColourController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CurrencyController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/CurrencyController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/CategoryController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ProductController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ProductController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PropertyController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PropertyController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UnitController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UnitController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/SubCategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/SubCategoryController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/SubSubCategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/SubSubCategoryController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/SubSubCategory.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/SubSubCategory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Traits/FileUpload.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Traits/FileUpload.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_08_20_130848_create_sub_sub_categories_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_08_20_130848_create_sub_sub_categories_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_09_11_174956_create_properties_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_09_11_174956_create_properties_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/upload/brands/MjAxMzE1OTg3ODI3OTgucG5n" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/upload/brands/NDIxNDE1OTg3ODI2MjAucG5n" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/upload/brands/Nzc1OTE1OTg3ODI3ODYucG5n" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/upload/category/icon/MTkxODE2MDA3NzY2MDA=.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/upload/category/icon/OTUzMzE2MDA3NzY2MTI=.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +94,14 @@
       <workItem from="1601541047661" duration="113000" />
       <workItem from="1601586911984" duration="2095000" />
       <workItem from="1601729981570" duration="2269000" />
-      <workItem from="1601771087441" duration="5112000" />
+      <workItem from="1601771087441" duration="8210000" />
+      <workItem from="1601867567022" duration="1175000" />
+      <workItem from="1601876826662" duration="1962000" />
+      <workItem from="1602301909313" duration="4883000" />
+      <workItem from="1602939191666" duration="5440000" />
+      <workItem from="1603026883111" duration="641000" />
+      <workItem from="1603034333234" duration="5934000" />
+      <workItem from="1603076256151" duration="3730000" />
     </task>
     <servers />
   </component>
@@ -117,11 +129,13 @@
       <screen x="0" y="0" width="1366" height="768" />
     </state>
     <state x="438" y="208" key="#Notifications/0.0.1366.768/-248.-1080.1280.720@0.0.1366.768" timestamp="1601537660814" />
-    <state x="464" y="156" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1601818637451">
-      <screen x="0" y="0" width="1536" height="864" />
+    <state x="580" y="195" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1603070068082">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="413" y="139" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.768/-248.-1080.1280.720@0.0.1366.768" timestamp="1601506229246" />
     <state x="464" y="156" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1536.864/0.-1080.1280.720@0.0.1536.864" timestamp="1601818637451" />
+    <state x="580" y="195" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1080/9.-1080.1280.720@0.0.1920.1080" timestamp="1603070068082" />
+    <state x="580" y="195" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1602997112813" />
     <state x="450" y="107" key="NewPhpClassDialog" timestamp="1599591003556">
       <screen x="0" y="0" width="1366" height="768" />
     </state>

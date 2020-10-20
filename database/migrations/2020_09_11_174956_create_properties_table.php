@@ -15,8 +15,9 @@ class CreatePropertiesTable extends Migration
     {
         Schema::create('properties', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('type_of_control')->nullable();
+            $table->mediumText('name');
+            $table->boolean('position');
+            $table->integer('cat_id');
             $table->timestamps();
         });
     }

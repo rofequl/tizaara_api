@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\File;
 
 trait FileUpload
 {
-    protected function saveImages(Request $request, $file, $folder)
+    protected function saveImages(Request $request, $file, $folder, $width = null, $height = null)
     {
         $path = public_path() . '/' . $folder;
         if (!File::exists($path)) {
@@ -16,7 +16,7 @@ trait FileUpload
         }
 
         $name = base64_encode(rand(1000, 9999) . time()) . '.' . explode('/', explode(':', substr($request->$file, 0, strpos($request->$file, ';')))[1])[1];
-        Image::make($request->$file)->save($path . '/' . $name);
+        Image::make($request->$file)->resize($width, $height)->save($path . '/' . $name);
         return $folder . $name;
     }
 

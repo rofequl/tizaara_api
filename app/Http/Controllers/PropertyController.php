@@ -45,9 +45,18 @@ class PropertyController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|max:255|unique:properties',
+            'category_id' => 'required',
+            'property_label' => 'required',
+            'property_label*' => 'required',
         ]);
 
+        if ($request->category_id != null){
+            if ($request->category_id != null)
+        }else{
+
+        }
+
+        return $request->all();
         $property = Property::create($request->all());
 
         foreach ($request->subcategory_id as $data) {

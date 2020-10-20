@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Product;
+use App\SubCategory;
 use App\Traits\FileUpload;
 use App\Traits\Slug;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class CategoryController extends Controller
 {
@@ -19,26 +23,7 @@ class CategoryController extends Controller
 
     public function index(Request $request)
     {
-        $columns = ['id', 'name', 'banner', 'icon'];
-        $length = $request->input('length');
-        $column = $request->input('column'); //Index
-        $dir = $request->input('dir');
-        $searchValue = $request->input('search');
-        if ($length == null && $column == null && $dir == null && $searchValue == null) {
-            return Category::with('subcategories', 'subcategories.subsubcategories')
-                ->select('id', 'name', 'icon', 'slug')->get();
-        }
-        $query = Category::orderBy($columns[$column], $dir);
-
-        if ($searchValue) {
-            $query->where(function ($query) use ($searchValue) {
-                $query->where('name', 'like', '%' . $searchValue . '%')
-                    ->orWhere('meta_title', 'like', '%' . $searchValue . '%');
-            });
-        }
-
-        $projects = $query->latest()->paginate($length);
-        return ['data' => $projects, 'draw' => $request->input('draw')];
+        return DB::table('categories')->get();
     }
 
     public function create()
@@ -49,15 +34,15 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|max:50|unique:brands',
+            'name' => 'required|max:50|unique:categories',
         ]);
 
         $data = $request->all();
         if ($request->banner != '') {
-            $data['banner'] = $this->saveImages($request, 'banner', 'upload/category/banner/');
+            $data['banner'] = $this->saveImages($request, 'banner', 'upload/category/banner/', 200, 300);
         }
         if ($request->icon != '') {
-            $data['icon'] = $this->saveImages($request, 'icon', 'upload/category/icon/');
+            $data['icon'] = $this->saveImages($request, 'icon', 'upload/category/icon/', 32, 32);
         }
         $data['slug'] = $this->slugText($request, 'name');
         return Category::create($data);
@@ -78,20 +63,31 @@ class CategoryController extends Controller
         $request->validate([
             'name' => 'required|max:50|unique:categories,name,' . $id,
         ]);
-
+        $category = Category::findOrFail($id);
         $data = $request->all();
         if ($request->banner != '' && strlen($request->banner) > 200) {
-            $data['banner'] = $this->saveImages($request, 'banner', 'upload/category/banner/');
+            File::delete(public_path($category->banner));
+            $data['banner'] = $this->saveImages($request, 'banner', 'upload/category/banner/', 200, 300);
         }
         if ($request->icon != '' && strlen($request->icon) > 200) {
-            $data['icon'] = $this->saveImages($request, 'icon', 'upload/category/icon/');
+            File::delete(public_path($category->icon));
+            $data['icon'] = $this->saveImages($request, 'icon', 'upload/category/icon/', 32, 32);
         }
         $data['slug'] = $this->slugText($request, 'name');
-        return Category::findOrFail($id)->update($data);
+        $category->update($data);
+        return Category::findOrFail($id);
     }
 
     public function destroy($id)
     {
-        //
+        $product = Product::where('category_id', $id)->first();
+        $subcategory = SubCategory::where('category_id', $id)->first();
+        if ($product) return response()->json(['result' => 'Error', 'message' => 'Category already used create a product'], 200);
+        if ($subcategory) return response()->json(['result' => 'Error', 'message' => 'Category already used create a subcategory'], 200);
+        $brand = Category::findOrFail($id);
+        File::delete(public_path($brand->icon));
+        File::delete(public_path($brand->banner));
+        $brand->delete();
+        return response()->json(['result' => 'Success', 'message' => 'Category has been deleted'], 200);
     }
 }

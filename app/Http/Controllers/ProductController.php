@@ -18,7 +18,7 @@ class ProductController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:admins', ['except' => ['productCategory','search']]);
+        $this->middleware('auth:admins', ['except' => ['productCategory', 'search']]);
     }
 
     use FileUpload;
@@ -234,7 +234,7 @@ class ProductController extends Controller
             return Product::with('product_stock')
                 ->where('category_id', $category)->where('subcategory_id', $subcategory)
                 ->where('subsubcategory_id', $subsubcategory)
-                ->select('id', 'name', 'thumbnail_img', 'priceType', 'unit_price','slug')->get();
+                ->select('id', 'name', 'thumbnail_img', 'priceType', 'unit_price', 'slug', 'property_options')->get();
         }
 
         if ($subcategory != null) {
@@ -242,14 +242,14 @@ class ProductController extends Controller
             $subcategory = SubCategory::where('slug', $subcategory)->select('id')->first()->id;
             return Product::with('product_stock')
                 ->where('category_id', $category)->where('subcategory_id', $subcategory)
-                ->select('id', 'name', 'thumbnail_img', 'priceType', 'unit_price','slug')->get();
+                ->select('id', 'name', 'thumbnail_img', 'priceType', 'unit_price', 'slug', 'property_options')->get();
         }
 
         if ($category != null) {
             $category = Category::where('slug', $category)->select('id')->first()->id;
             return Product::with('product_stock')
                 ->where('category_id', $category)
-                ->select('id', 'name', 'thumbnail_img', 'priceType', 'unit_price','slug')->get();
+                ->select('id', 'name', 'thumbnail_img', 'priceType', 'unit_price', 'slug', 'property_options')->get();
         }
     }
 

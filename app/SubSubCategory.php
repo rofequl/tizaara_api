@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class SubSubCategory extends Model
 {
     protected $fillable = [
-        'name', 'sub_category_id', 'meta_title', 'slug', 'meta_description'
+        'name', 'category_id', 'sub_category_id', 'meta_title', 'slug', 'meta_description'
     ];
 
     public function subcategory()
@@ -17,6 +17,6 @@ class SubSubCategory extends Model
 
     public function property()
     {
-        return $this->belongsToMany(Property::class,'property_categories','subsubcategory_id');
+        return $this->belongsToMany(Property::class, 'property_categories', 'subsubcategory_id');
     }
 }
