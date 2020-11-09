@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\City;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CityController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('auth:admins');
+        $this->middleware('auth:admins', ['except' => ['index']]);
     }
 
     public function index(Request $request)
@@ -21,7 +22,7 @@ class CityController extends Controller
         $dir = $request->input('dir');
         $searchValue = $request->input('search');
         if ($length == null && $column == null && $dir == null && $searchValue == null) {
-            return City::select('id', 'name')->get();
+            return DB::table('cities')->get();
         }
         $query = City::with('division','division.country')->orderBy($columns[$column], $dir);
 

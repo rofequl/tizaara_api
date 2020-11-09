@@ -21,6 +21,7 @@ class CreateSubSubCategoriesTable extends Migration
             $table->string('slug')->nullable()->unique();
             $table->string('meta_title')->nullable();
             $table->text('meta_description')->nullable();
+            $table->integer('serial')->nullable();
             $table->timestamps();
         });
     }

@@ -6,35 +6,19 @@ use App\Property;
 use App\Property_category;
 use App\SubSubCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PropertyController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('auth:admins', ['except' => ['show']]);
+        $this->middleware('auth:admins', ['except' => ['index', 'show']]);
     }
 
     public function index(Request $request)
     {
-        $columns = ['id', 'name'];
-        $length = $request->input('length');
-        $column = $request->input('column'); //Index
-        $dir = $request->input('dir');
-        $searchValue = $request->input('search');
-        if ($length == null && $column == null && $dir == null && $searchValue == null) {
-            return Property::select('id', 'name')->orderBy('id', 'DESc')->get();
-        }
-        $query = Property::with('subsubcategory')->orderBy($columns[$column], $dir);
-
-        if ($searchValue) {
-            $query->where(function ($query) use ($searchValue) {
-                $query->where('name', 'like', '%' . $searchValue . '%');
-            });
-        }
-
-        $projects = $query->latest()->paginate($length);
-        return ['data' => $projects, 'draw' => $request->input('draw')];
+        return DB::table('properties')->get();
     }
 
     public function create()
@@ -50,22 +34,32 @@ class PropertyController extends Controller
             'property_label*' => 'required',
         ]);
 
-        if ($request->category_id != null){
-            if ($request->category_id != null)
-        }else{
+        $position = 1;
+        $cat_id = '';
 
+        if ($request->category_id != null) {
+            if ($request->sub_category_id != null) {
+                if ($request->sub_subcategory_id != null) {
+                    $position = 3;
+                    $cat_id = $request->sub_subcategory_id;
+                } else {
+                    $position = 2;
+                    $cat_id = $request->sub_category_id;
+                }
+            } else {
+                $position = 1;
+                $cat_id = $request->category_id;
+            }
         }
 
-        return $request->all();
-        $property = Property::create($request->all());
+        $insert = new Property();
+        $insert->name = json_encode($request->property_label);
+        $insert->position = $position;
+        $insert->cat_id = $cat_id;
+        $insert->save();
 
-        foreach ($request->subcategory_id as $data) {
-            $insert = new Property_category();
-            $insert->property_id = $property->id;
-            $insert->subsubcategory_id = $data;
-            $insert->save();
-        }
-        return 'ok';
+        return response()->json(['result' => 'Success', 'message' => 'Property add successfully'], 200);
+
     }
 
     public function show($id)
@@ -100,6 +94,8 @@ class PropertyController extends Controller
 
     public function destroy($id)
     {
-        //
+        $brand = Property::findOrFail($id);
+        $brand->delete();
+        return response()->json(['result' => 'Success', 'message' => 'Property has been deleted'], 200);
     }
 }

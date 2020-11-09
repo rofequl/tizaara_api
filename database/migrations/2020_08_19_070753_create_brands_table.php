@@ -21,6 +21,7 @@ class CreateBrandsTable extends Migration
             $table->string('logo',100)->nullable();
             $table->string('slug')->nullable()->unique();
             $table->integer('top')->default(0);
+            $table->integer('serial')->nullable();
             $table->timestamps();
         });
     }

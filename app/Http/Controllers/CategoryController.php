@@ -23,7 +23,7 @@ class CategoryController extends Controller
 
     public function index(Request $request)
     {
-        return DB::table('categories')->get();
+        return DB::table('categories')->orderByRaw('ISNULL(serial), serial ASC')->get();
     }
 
     public function create()
@@ -53,9 +53,26 @@ class CategoryController extends Controller
         return Category::where('slug', $id)->first();
     }
 
-    public function edit($id)
+    public function categoryListing(Request $request)
     {
-        //
+        Category::query()->update(['serial' => null]);
+        for ($i = 1; $i <= count($request->category_id); $i++) {
+            $insert = Category::where('id', $request->category_id[$i - 1])->first();
+            $insert->serial = $i;
+            $insert->save();
+        }
+        return response()->json(['result' => 'Success', 'message' => 'Category has been listing'], 200);
+    }
+
+    public function homeCategoryListing(Request $request)
+    {
+        Category::query()->update(['home_serial' => null]);
+        for ($i = 1; $i <= count($request->category_id); $i++) {
+            $insert = Category::where('id', $request->category_id[$i - 1])->first();
+            $insert->home_serial = $i;
+            $insert->save();
+        }
+        return response()->json(['result' => 'Success', 'message' => 'Category has been listing'], 200);
     }
 
     public function update(Request $request, $id)

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Business_type;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BusinessTypeController extends Controller
 {
@@ -20,7 +21,7 @@ class BusinessTypeController extends Controller
         $dir = $request->input('dir');
         $searchValue = $request->input('search');
         if ($length == null && $column == null && $dir == null && $searchValue == null) {
-            return Business_type::select('id', 'name')->orderBy('id', 'DESc')->get();
+            return DB::table('business_types')->select('id', 'name')->orderBy('id', 'DESc')->get();
         }
         $query = Business_type::orderBy($columns[$column], $dir);
 

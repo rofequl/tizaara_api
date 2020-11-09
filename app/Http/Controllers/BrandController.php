@@ -14,7 +14,7 @@ class BrandController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:admins');
+        $this->middleware('auth:admins', ['except' => ['index']]);
     }
 
     use FileUpload;
@@ -22,12 +22,18 @@ class BrandController extends Controller
 
     public function index(Request $request)
     {
-        return DB::table('brands')->get();
+        return DB::table('brands')->orderByRaw('ISNULL(serial), serial ASC')->get();
     }
 
-    public function create()
+    public function brandListing(Request $request)
     {
-        //
+        Brand::query()->update(['serial' => null]);
+        for ($i = 1; $i <= count($request->brand_id); $i++) {
+            $insert = Brand::where('id', $request->brand_id[$i - 1])->first();
+            $insert->serial = $i;
+            $insert->save();
+        }
+        return response()->json(['result' => 'Success', 'message' => 'Brand has been listing'], 200);
     }
 
     public function store(Request $request)

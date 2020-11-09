@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Area;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AreaController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:admins');
+        $this->middleware('auth:admins', ['except' => ['index']]);
     }
 
     public function index(Request $request)
@@ -20,7 +21,7 @@ class AreaController extends Controller
         $dir = $request->input('dir');
         $searchValue = $request->input('search');
         if ($length == null && $column == null && $dir == null && $searchValue == null) {
-            return Area::select('id', 'name')->orderBy('id', 'DESc')->get();
+            return DB::table('areas')->get();
         }
         $query = Area::with('city.division.country')->orderBy($columns[$column], $dir);
 

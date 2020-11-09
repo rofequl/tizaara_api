@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Country;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CountryController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:admins');
+        $this->middleware('auth:admins', ['except' => ['index']]);
     }
 
     public function index(Request $request)
@@ -20,7 +21,7 @@ class CountryController extends Controller
         $dir = $request->input('dir');
         $searchValue = $request->input('search');
         if ($length == null && $column == null && $dir == null && $searchValue == null) {
-            return Country::select('id', 'name')->get();
+            return DB::table('countries')->get();
         }
         $query = Country::orderBy($columns[$column], $dir);
 

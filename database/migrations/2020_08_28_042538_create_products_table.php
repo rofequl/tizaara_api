@@ -22,6 +22,7 @@ class CreateProductsTable extends Migration
             $table->integer('category_id')->nullable();
             $table->integer('subcategory_id')->nullable();
             $table->integer('subsubcategory_id')->nullable();
+            $table->boolean('category_label')->nullable();
             $table->mediumText('property_options')->nullable();
             $table->integer('brand_id')->nullable();
             $table->integer('unit')->nullable();
@@ -38,15 +39,17 @@ class CreateProductsTable extends Migration
             $table->string('video_link', 100)->nullable();
             $table->mediumText('colors')->nullable();
             $table->mediumText('color_image')->nullable();
+            $table->boolean('color_type')->default(0);
             $table->string('attributes', 1000)->nullable();
             $table->mediumText('attribute_options')->nullable();
             $table->double('tax', 8, 2)->nullable();
             $table->string('tax_type', 10)->nullable();
             $table->double('discount', 8, 2)->nullable();
             $table->string('discount_type', 10)->nullable();
-            $table->boolean('discount_variation')->nullable()->default(0);
-            $table->boolean('orderQtyLimit')->nullable()->default(0);
-            $table->string('orderQtyLimitValue', 10)->nullable();
+            $table->boolean('discount_variation')->default(0);
+            $table->boolean('orderQtyLimit')->default(0);
+            $table->string('orderQtyLimitMax', 10)->nullable();
+            $table->string('orderQtyLimitMin', 10)->nullable();
             $table->boolean('priceType')->default(0);
             $table->boolean('stockManagement')->default(1);
             $table->double('unit_price', 8, 2)->nullable();
@@ -54,8 +57,7 @@ class CreateProductsTable extends Migration
             $table->integer('quantity')->nullable();
             $table->string('sku')->nullable();
             $table->longText('description')->nullable();
-            $table->string('linkProduct')->nullable();
-            $table->string('shipping_type', 20)->default('free')->nullable();
+            $table->boolean('shipping_type')->default(0);
             $table->double('shipping_cost', 8, 2)->default(0.00)->nullable();
             $table->integer('num_of_sale')->default(0);
             $table->mediumText('meta_title')->nullable();

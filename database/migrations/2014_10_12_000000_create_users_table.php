@@ -21,9 +21,11 @@ class CreateUsersTable extends Migration
             $table->string('last_name')->nullable();
             $table->string('photo_type')->default(0);
             $table->string('photo')->default('upload/photo/user.png');
+            $table->string('job_title')->nullable();
             $table->string('username')->unique();
             $table->string('email')->unique()->nullable();
             $table->string('mobile')->unique()->nullable();
+            $table->string('telephone')->nullable();
             $table->string('password');
             $table->string('verificationToken')->nullable();
             $table->string('is_verified')->default(0);

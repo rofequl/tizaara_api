@@ -14,10 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::group(['middleware' => 'api', 'prefix' => 'admin', 'namespace' => 'Admin'], function ($router) {
     Route::post('login', 'AuthController@login');
     Route::post('register', 'AuthController@register');
@@ -40,6 +36,12 @@ Route::group(['middleware' => 'api', 'prefix' => 'user', 'namespace' => 'User'],
     Route::resource('product', 'ProductController');
 });
 
+Route::group(['middleware' => 'api', 'namespace' => 'User'], function ($router) {
+    Route::resource('personal', 'ProfileController');
+    Route::resource('factory', 'FactoryController');
+    Route::post('factory-details', 'FactoryController@factoryDetails');
+});
+
 Route::group(['middleware' => 'api'], function ($router) {
     Route::resource('brand', 'BrandController');
     Route::resource('category', 'CategoryController');
@@ -52,12 +54,21 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::get('get-product-group', 'ProductController@getProductGroup');
     Route::get('subcategory-slug/{data}', 'SubCategoryController@slug');
     Route::get('subsubcategory-slug/{data}', 'SubSubCategoryController@slug');
-    Route::get('product-category', 'ProductController@productCategory');
+    Route::get('product-listing', 'ProductController@productListing');
 
     Route::resource('country', 'CountryController');
     Route::resource('division', 'DivisionController');
     Route::resource('city', 'CityController');
     Route::resource('area', 'AreaController');
+
+    Route::post('brand-listing', 'BrandController@brandListing');
+    Route::post('category-listing', 'CategoryController@categoryListing');
+    Route::post('subcategory-listing', 'SubCategoryController@subcategoryListing');
+    Route::post('sub-subcategory-listing', 'SubSubCategoryController@subsubcategoryListing');
+    Route::get('home-banner', 'HomeSliderController@homeBannerList');
+    Route::post('home-banner', 'HomeSliderController@homeBanner');
+    Route::get('home-category-listing', 'HomeSliderController@homeCategoryListing');
+    Route::post('home-category-listing', 'CategoryController@homeCategoryListing');
 
     Route::resource('general-settings', 'GeneralController');
     Route::get('general-settings-logo', 'GeneralController@logo');

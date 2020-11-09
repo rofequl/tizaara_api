@@ -22,7 +22,8 @@ class SubSubCategoryController extends Controller
     {
         return DB::table('sub_sub_categories')->join('categories', 'categories.id', '=', 'sub_sub_categories.category_id')
             ->join('sub_categories', 'sub_categories.id', '=', 'sub_sub_categories.sub_category_id')
-            ->select('categories.name as categoryName', 'sub_categories.name as subcategoryName', 'sub_sub_categories.*')->get();
+            ->select('categories.name as categoryName', 'sub_categories.name as subcategoryName', 'sub_sub_categories.*')
+            ->orderByRaw('ISNULL(sub_sub_categories.serial), sub_sub_categories.serial ASC')->get();
     }
 
     public function create()
@@ -61,9 +62,19 @@ class SubSubCategoryController extends Controller
         return SubSubCategory::where('slug', $id)->first();
     }
 
-    public function edit($id)
+    public function subsubcategoryListing(Request $request)
     {
-        //
+        $this->validate($request, [
+            'category_id' => 'required',
+            'sub_category_id' => 'required',
+        ]);
+        SubSubCategory::where('category_id', '=', $request->category_id)->where('sub_category_id', '=', $request->subcategory_id)->update(['serial' => null]);
+        for ($i = 1; $i <= count($request->subsubcategory_id); $i++) {
+            $insert = SubSubCategory::where('id', $request->subsubcategory_id[$i - 1])->first();
+            $insert->serial = $i;
+            $insert->save();
+        }
+        return response()->json(['result' => 'Success', 'message' => 'Sub-Subcategory has been listing'], 200);
     }
 
     public function update(Request $request, $id)
