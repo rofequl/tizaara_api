@@ -25,7 +25,7 @@ class SubCategoryController extends Controller
     {
         return DB::table('sub_categories')->join('categories', 'categories.id', '=', 'sub_categories.category_id')
             ->select('categories.name as categoryName', 'sub_categories.*')->orderByRaw('ISNULL(sub_categories.serial), sub_categories.serial ASC')
-            ->orderByRaw('ISNULL(sub_categories.serial), sub_categories.serial ASC')->get();
+            ->get();
     }
 
     public function create()

@@ -34,12 +34,14 @@ Route::group(['middleware' => 'api', 'prefix' => 'user', 'namespace' => 'User'],
     Route::post('verify-request/{data}', 'AuthController@verifyRequest');
     Route::get('user-search', 'AuthController@search');
     Route::resource('product', 'ProductController');
+    Route::get('supplier-search', 'AuthController@supplierSearch');
 });
 
 Route::group(['middleware' => 'api', 'namespace' => 'User'], function ($router) {
     Route::resource('personal', 'ProfileController');
     Route::resource('factory', 'FactoryController');
     Route::post('factory-details', 'FactoryController@factoryDetails');
+    Route::get('supplier-quotation', 'MarketingController@quotation');
 });
 
 Route::group(['middleware' => 'api'], function ($router) {
@@ -50,6 +52,7 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::resource('property', 'PropertyController');
     Route::resource('product', 'ProductController');
     Route::get('product-search', 'ProductController@search');
+    Route::get('product-name', 'ProductController@searchName');
     Route::resource('product-group', 'ProductGroupController');
     Route::get('get-product-group', 'ProductController@getProductGroup');
     Route::get('subcategory-slug/{data}', 'SubCategoryController@slug');
@@ -81,4 +84,6 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::resource('business_type', 'BusinessTypeController');
     Route::get('currency/{data}/{data2}', 'CurrencyController@updateStatus');
     Route::get('business_type/{data}/{data2}', 'BusinessTypeController@updateStatus');
+
+    Route::resource('quotation', 'QuotationController');
 });

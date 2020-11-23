@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Address;
 use App\Category;
 use App\discount_variation;
+use App\GeneralSetting;
 use App\price_variation;
 use App\Product;
 use App\Product_stock;
@@ -11,15 +13,17 @@ use App\SubCategory;
 use App\SubSubCategory;
 use App\Traits\FileUpload;
 use App\Traits\Slug;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:admins', ['except' => ['productListing', 'search']]);
+        $this->middleware('auth:admins', ['except' => ['productListing', 'search', 'searchName']]);
     }
 
     use FileUpload;
@@ -233,32 +237,71 @@ class ProductController extends Controller
 
     public function productListing(Request $request)
     {
+        $conditions = [];
+        $category_id = $request->category;
+        $subcategory_id = $request->subcategory;
+        $subsubcategory_id = $request->subsubcategory;
+
+        $keyword = $request->keyword;
+        $type = $request->type;
+
+        if ($category_id) $conditions = array_merge($conditions, ['category_id' => $category_id]);
+        if ($subcategory_id) $conditions = array_merge($conditions, ['subcategory_id' => $subcategory_id]);
+        if ($subsubcategory_id) $conditions = array_merge($conditions, ['subsubcategory_id' => $subsubcategory_id]);
+
+        $product = Product::where($conditions);
+
+        if ($keyword) $product = $product->where('name', 'like', '%' . $keyword . '%');
+
+        $product = $product->with('product_stock')->select('id', 'name', 'thumbnail_img', 'priceType', 'unit_price', 'slug', 'property_options', 'added_by', 'user_id', 'video_link')
+            ->paginate(10);
+
         $collection = new Collection();
-        $product = Product::with('product_stock')->select('id', 'name', 'thumbnail_img', 'priceType', 'unit_price', 'slug', 'property_options');
-        if ($request->category) {
-            $product->where('category_id', $request->category);
-        }
-
-        if ($request->subcategory) {
-            $product->where('subcategory_id', $request->subcategory);
-        }
-
-        if ($request->subsubcategory) {
-            $product->where('subsubcategory_id', $request->subsubcategory);
-        }
-        $product->get();
         foreach ($product as $products) {
+            $supplier = [];
+            if ($request->type == 'Suppliers') {
+                if ($products->added_by == 'supplier') {
+                    $company = DB::table('company_basic_infos')->where('user_id', $products->user_id)->select('name', 'phone', 'address_type',
+                        'ope_address_id', 'reg_address_id')->first();
+                    if ($company) {
+                        $address = DB::table('addresses')->where('id', $company->address_type == 2 ? $company->ope_address_id : $company->reg_address_id)
+                            ->pluck('address')->first();
+                        $supplier['name'] = $company->name;
+                        $supplier['phone'] = $company->phone;
+                        $supplier['address'] = $address;
+                    } else {
+                        $user = User::findOrFail($products->user_id);
+                        $supplier['name'] = $user->first_name . ' ' . $user->last_name;
+                        $supplier['phone'] = $user->mobile;
+                        $supplier['address'] = '';
+                    }
+                } else {
+                    $general_setting = DB::table('general_settings')->get()->first();
+                    $supplier['name'] = $general_setting->site_name;
+                    $supplier['phone'] = $general_setting->phone;
+                    $supplier['address'] = $general_setting->address;
+                }
+            }
             $collection->push([
                 'product' => $products,
-
+                'supplier' => $supplier,
             ]);
         }
-        return $collection;
+        $final_data = [
+            'product_details'=>$collection,
+            'product_load' => [
+                'to' => $product->lastPage(),
+                'total' =>  $product->total(),
+                'current_page' => $product->currentPage()
+            ],
+        ];
+        return $final_data;
     }
 
-    public function edit($id)
+    public function searchName(Request $request)
     {
-        //
+        return DB::table('products')->where('name', 'like', '%' . $request->n . '%')->select('id', 'name')
+            ->skip(0)->take(5)->get()->unique('name');
     }
 
     public function update(Request $request, $id)

@@ -51,7 +51,7 @@ class GeneralController extends Controller
         if (count($request->logo) > 0) {
             if (array_key_exists("path", $request->logo[0])) {
                 File::delete(public_path($general->logo));
-                $logo = $this->saveImagesVue($request->logo[0], 'path', 'upload/general/');
+                $logo = $this->saveImagesVue($request->logo[0], 'path', 'upload/general/', 500, 200);
                 $general->logo = $logo;
             }
         }
@@ -59,7 +59,7 @@ class GeneralController extends Controller
         if (count($request->admin_logo) > 0) {
             if (array_key_exists("path", $request->admin_logo[0])) {
                 File::delete(public_path($general->admin_logo));
-                $logo = $this->saveImagesVue($request->admin_logo[0], 'path', 'upload/general/');
+                $logo = $this->saveImagesVue($request->admin_logo[0], 'path', 'upload/general/', 500, 200);
                 $general->admin_logo = $logo;
             }
         }
@@ -67,7 +67,7 @@ class GeneralController extends Controller
         if (count($request->admin_login_background) > 0) {
             if (array_key_exists("path", $request->admin_login_background[0])) {
                 File::delete(public_path($general->admin_login_background));
-                $logo = $this->saveImagesVue($request->admin_login_background[0], 'path', 'upload/general/');
+                $logo = $this->saveImagesVue($request->admin_login_background[0], 'path', 'upload/general/', 1000, 1000);
                 $general->admin_login_background = $logo;
             }
         }
@@ -75,7 +75,7 @@ class GeneralController extends Controller
         if (count($request->favicon) > 0) {
             if (array_key_exists("path", $request->favicon[0])) {
                 File::delete(public_path($general->favicon));
-                $logo = $this->saveImagesVue($request->favicon[0], 'path', 'upload/general/');
+                $logo = $this->saveImagesVue($request->favicon[0], 'path', 'upload/general/', 100, 100);
                 $general->favicon = $logo;
             }
         }

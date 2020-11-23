@@ -19,7 +19,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:users', ['except' => ['login', 'loginByGoogle', 'register', 'verify', 'verifyTokenSend']]);
+        $this->middleware('auth:users', ['except' => ['login', 'loginByGoogle', 'register', 'verify', 'verifyTokenSend', 'supplierSearch']]);
     }
 
     public function register(Request $request)
@@ -288,6 +288,19 @@ class AuthController extends Controller
         }
 
         return 0;
+    }
+
+    public function supplierSearch(Request $request)
+    {
+        $search = $request->input('searchSupplier');
+        if ($search != null) {
+            return User::select('id', 'first_name', 'last_name', 'mobile')
+                ->where('first_name', 'like', '%' . $search . '%')
+                ->orwhere('last_name', 'like', '%' . $search . '%')
+                ->orWhere('mobile', 'like', '%' . $search . '%')->get();
+        } else {
+            return [];
+        }
     }
 
 
