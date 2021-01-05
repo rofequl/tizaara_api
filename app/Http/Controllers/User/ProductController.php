@@ -7,10 +7,12 @@ use App\Http\Controllers\Controller;
 use App\price_variation;
 use App\Product;
 use App\Product_stock;
+use App\ProductRequest;
 use App\Traits\FileUpload;
 use App\Traits\Slug;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -173,7 +175,7 @@ class ProductController extends Controller
             }
         }
         return 'done';
-    } 
+    }
 
     public function show($id)
     {
@@ -193,5 +195,53 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function productRequest(Request $request)
+    {
+        $this->validate($request, [
+            'product_id' => 'required',
+            'request_type' => 'required',
+            'user_id' => 'required',
+        ]);
+
+        if ($request->user_id !== Auth::user()->id) {
+            return response()->json(['result' => 'Warning', 'message' => 'User Id did not match'], 401);
+        }
+
+        $product = ProductRequest::where('request_type', $request->request_type)->where('product_id', $request->product_id)->first();
+        if ($product) {
+            return ProductRequest::findOrFail($product->id)->update($request->all());
+        } else {
+            return ProductRequest::create($request->all());
+        }
+    }
+
+    public function productEcommerceList()
+    {
+        $product = collect();
+        $request = DB::table('product_requests')->where('request_type', 1)->where('user_id', Auth::user()->id)->orderBy('id', 'DESC')->get();
+        foreach ($request as $item) {
+            $data = DB::table('products')->where('id', $item->product_id)->first();
+            $status = $item->status == 0 ? 'Request' : 'Approve';
+            $product->push([
+                'image' => $data->thumbnail_img, 'product_name' => $data->name, 'status' => $status
+            ]);
+        }
+        return $product;
+    }
+
+    public function productFlashList()
+    {
+        $product = collect();
+        $request = DB::table('product_requests')->where('request_type', 2)->where('user_id', Auth::user()->id)->orderBy('id', 'DESC')->get();
+        foreach ($request as $item) {
+            $data = DB::table('products')->where('id', $item->product_id)->first();
+            $status = $item->status == 0 ? 'Request' : 'Approve';
+            $product->push([
+                'image' => $data->thumbnail_img, 'product_name' => $data->name, 'status' => $status, 'discount' => $item->discount, 'discount_type' => $item->discount_type
+            ]);
+        }
+        return $product;
     }
 }

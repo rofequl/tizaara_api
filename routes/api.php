@@ -20,6 +20,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'admin', 'namespace' => 'Admin'
     Route::post('logout', 'AuthController@logout');
     Route::get('profile', 'AuthController@profile');
     Route::get('user-list', 'AuthController@userList');
+    Route::get('supplier-list', 'AuthController@supplierList');
     Route::post('user-verify/{data}', 'AuthController@userVerify');
 });
 
@@ -42,6 +43,9 @@ Route::group(['middleware' => 'api', 'namespace' => 'User'], function ($router) 
     Route::resource('factory', 'FactoryController');
     Route::post('factory-details', 'FactoryController@factoryDetails');
     Route::get('supplier-quotation', 'MarketingController@quotation');
+    Route::post('user-product-request', 'ProductController@productRequest');
+    Route::get('user-product-ecommerce-list', 'ProductController@productEcommerceList');
+    Route::get('user-product-flash-list', 'ProductController@productFlashList');
 });
 
 Route::group(['middleware' => 'api'], function ($router) {
@@ -73,6 +77,30 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::get('home-category-listing', 'HomeSliderController@homeCategoryListing');
     Route::post('home-category-listing', 'CategoryController@homeCategoryListing');
 
+    Route::get('term_condition', 'PageManageController@termCondition');
+    Route::post('term_condition', 'PageManageController@termConditionUpdate');
+    Route::get('privacy_policy', 'PageManageController@privacyPolicy');
+    Route::post('privacy_policy', 'PageManageController@privacyPolicyUpdate');
+    Route::get('about_us', 'PageManageController@aboutUs');
+    Route::post('about_us', 'PageManageController@aboutUsUpdate');
+    Route::get('join_sales', 'PageManageController@joinSales');
+    Route::post('join_sales', 'PageManageController@joinSalesUpdate');
+
+    Route::get('help-category', 'HelpController@helpCategoryIndex');
+    Route::post('help-category', 'HelpController@helpCategoryStore');
+    Route::put('help-category/{data}', 'HelpController@helpCategoryUpdate');
+    Route::delete('help-category/{data}', 'HelpController@helpCategoryDestroy');
+    Route::get('help-subcategory', 'HelpController@helpSubcategoryIndex');
+    Route::post('help-subcategory', 'HelpController@helpSubcategoryStore');
+    Route::put('help-subcategory/{data}', 'HelpController@helpSubcategoryUpdate');
+    Route::delete('help-subcategory/{data}', 'HelpController@helpSubcategoryDestroy');
+
+    Route::get('help-question', 'HelpController@helpQuestionIndex');
+    Route::post('help-question', 'HelpController@helpQuestionStore');
+    Route::post('help-question/{data}/status', 'HelpController@helpQuestionStatus');
+    Route::put('help-question/{data}', 'HelpController@helpQuestionUpdate');
+    Route::delete('help-question/{data}', 'HelpController@helpQuestionDestroy');
+
     Route::resource('general-settings', 'GeneralController');
     Route::get('general-settings-logo', 'GeneralController@logo');
     Route::put('general-settings-logo/{data}', 'GeneralController@logoUpload');
@@ -86,4 +114,16 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::get('business_type/{data}/{data2}', 'BusinessTypeController@updateStatus');
 
     Route::resource('quotation', 'QuotationController');
+    Route::resource('flash-deals', 'FlashDealController');
+    Route::get('flash-deals-list', 'FlashDealController@flashDealList');
+    Route::post('flash-deals-status', 'FlashDealController@statusUpdate');
+    Route::get('request-flash-deals', 'FlashDealController@requestFlashDealList');
+    Route::post('product_flash_request_input', 'FlashDealController@requestFlashDealStore');
+
+    Route::get('newsletter', 'NewsletterController@newsletterIndex');
+    Route::post('newsletter-post', 'NewsletterController@newsletterStore');
+    Route::post('subscribe', 'NewsletterController@subscribeStore');
+
+    Route::resource('testimonial', 'TestimonialController');
+    Route::post('testimonial-status', 'TestimonialController@statusUpdate');
 });

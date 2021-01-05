@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -69,6 +70,12 @@ class AuthController extends Controller
     public function userList()
     {
         return User::where('is_verified', 1)->get();
+    }
+
+    public function supplierList()
+    {
+        return DB::table('users')->where('is_verified', 1)->where('account_type', '!=', 2)->select('first_name',
+            'last_name', 'id')->get();
     }
 
     public function userVerify($id)
